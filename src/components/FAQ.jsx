@@ -2,57 +2,30 @@ import { useState } from 'react'
 import { Plus, Minus } from 'lucide-react'
 
 const faqs = [
-  {
-    q: 'Do I need a technical background to join?',
-    a: 'Not for most programs. Our Data Analytics and Digital Marketing tracks are designed for complete beginners. For ML, GenAI, and Data Science programs, basic Python knowledge is helpful — we provide pre-course prep material to get you ready.',
-  },
-  {
-    q: 'Are classes live or recorded?',
-    a: 'We use a hybrid model: live weekend sessions with industry mentors (recorded for later review), plus self-paced assignments and project work during the week. You get the accountability of live learning with the flexibility of async content.',
-  },
-  {
-    q: 'What if I don\'t get a job after completing the program?',
-    a: 'We offer a placement guarantee on select programs — if you meet the program criteria and don\'t receive a job offer within 6 months, we refund your fees. Our 94% placement rate speaks for itself.',
-  },
-  {
-    q: 'How long are the programs?',
-    a: 'Programs range from 8 weeks (Business AI Strategy) to 24 weeks (Data Science & ML). Most working professionals commit 10–15 hours per week alongside their jobs.',
-  },
-  {
-    q: 'Can I pay in installments?',
-    a: 'Yes. We offer 0% EMI options through our banking partners, income share agreements (ISA) for select programs, and early-bird discounts of up to 30%. Talk to our admissions team for the right plan.',
-  },
-  {
-    q: 'Who are the mentors?',
-    a: 'Our mentors are senior practitioners at companies like Google, Amazon, Microsoft, Razorpay, and Flipkart — not career trainers. They bring live industry problems into the classroom and often become referrers for our top students.',
-  },
-  {
-    q: 'Is there a community after graduation?',
-    a: 'Absolutely. You get lifetime access to our alumni Slack community of 2,700+ professionals, exclusive job boards, monthly alumni events, and continued mentorship office hours.',
-  },
-  {
-    q: 'Can I switch programs after enrolling?',
-    a: 'Yes, within the first two weeks with no penalty. After that, program switches are handled on a case-by-case basis by our admissions team.',
-  },
+  { q: 'What is AcceleratorX, and how is it different from other AI courses?', a: 'AcceleratorX is India\'s #1 AI career platform focused on real, project-based learning. Unlike traditional courses, we combine live sessions with industry practitioners, hands-on projects, and dedicated placement support — so you graduate with a portfolio, not just a certificate.' },
+  { q: 'Which is the best AI course in India for working professionals?', a: 'Our AI Product Management, Generative AI, and Data Science programs are top-rated for working professionals. All programs run on weekends so you can upskill without leaving your job.' },
+  { q: 'Can I learn AI or data analytics without coding?', a: 'Yes. Our AI Digital Marketing, AI Product Management, and Business AI Strategy programs require zero coding. For technical programs, we provide pre-course prep to get you up to speed.' },
+  { q: 'What are the career opportunities after completing AcceleratorX AI courses?', a: 'Graduates go on to roles like AI Product Manager, Data Analyst, ML Engineer, GenAI Developer, and AI Marketing Lead at companies like Google, Microsoft, Flipkart, Swiggy, and Razorpay.' },
+  { q: 'How can I switch my career to AI or data and analytics?', a: 'Start with a free consultation with our admissions team. We\'ll map your current skills to the right program, help you build a portfolio of real AI projects, and connect you to 1,700+ hiring partners through our placement network.' },
 ]
 
 function FAQItem({ item, open, onToggle }) {
   return (
-    <div className="border border-gray-200 rounded-xl overflow-hidden">
-      <button
-        className="w-full flex items-center justify-between px-6 py-5 text-left bg-white hover:bg-gray-50 transition-colors"
-        onClick={onToggle}
-      >
-        <span className="font-semibold text-gray-900 pr-4">{item.q}</span>
-        <span className="flex-shrink-0 w-6 h-6 bg-blue-50 rounded-full flex items-center justify-center">
+    <div style={{ borderRadius: 14, border: `1px solid ${open ? 'rgba(37,99,235,0.3)' : 'rgba(255,255,255,0.08)'}`, overflow: 'hidden', transition: 'border-color 0.2s', marginBottom: 12 }}>
+      <button onClick={onToggle} style={{
+        width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        padding: '20px 24px', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left',
+      }}>
+        <span style={{ color: '#e5e7eb', fontWeight: 600, fontSize: 15, flex: 1, paddingRight: 16, lineHeight: 1.4 }}>{item.q}</span>
+        <div style={{ width: 28, height: 28, borderRadius: '50%', border: '1px solid rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: open ? '#2563eb' : 'transparent', transition: 'background 0.2s' }}>
           {open
-            ? <Minus className="w-3.5 h-3.5 text-blue-600" />
-            : <Plus className="w-3.5 h-3.5 text-blue-600" />}
-        </span>
+            ? <Minus style={{ width: 14, height: 14, color: '#fff' }} />
+            : <Plus style={{ width: 14, height: 14, color: '#9ca3af' }} />}
+        </div>
       </button>
       {open && (
-        <div className="px-6 pb-5 bg-white">
-          <p className="text-gray-600 leading-relaxed">{item.a}</p>
+        <div style={{ padding: '0 24px 20px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+          <p style={{ color: '#6b7280', lineHeight: 1.7, fontSize: 14, margin: '16px 0 0' }}>{item.a}</p>
         </div>
       )}
     </div>
@@ -63,32 +36,30 @@ export default function FAQ() {
   const [openIdx, setOpenIdx] = useState(0)
 
   return (
-    <section className="py-20 bg-white">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <span className="text-blue-600 font-semibold text-sm uppercase tracking-widest">FAQ</span>
-          <h2 className="text-4xl font-black text-gray-900 mt-2 mb-4">
-            Got <span className="gradient-text">Questions?</span>
+    <section style={{ background: '#070910', padding: '88px 0' }}>
+      <div style={{ maxWidth: 800, margin: '0 auto', padding: '0 24px' }}>
+
+        <div style={{ textAlign: 'center', marginBottom: 52 }}>
+          <h2 style={{ color: '#fff', fontSize: 'clamp(28px,4vw,48px)', fontWeight: 900, letterSpacing: '-0.03em', marginBottom: 12 }}>
+            FAQs
           </h2>
-          <p className="text-gray-600">Everything you need to know before you enroll.</p>
         </div>
 
-        <div className="space-y-3">
+        <div>
           {faqs.map((item, i) => (
             <FAQItem
-              key={i}
-              item={item}
+              key={i} item={item}
               open={openIdx === i}
               onToggle={() => setOpenIdx(openIdx === i ? -1 : i)}
             />
           ))}
         </div>
 
-        <div className="mt-10 text-center bg-blue-50 rounded-2xl p-8">
-          <p className="text-gray-700 font-medium mb-3">Still have questions? Talk to us directly.</p>
-          <button className="bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition-colors">
-            Chat With Admissions
-          </button>
+        <div style={{ textAlign: 'right', marginTop: 20 }}>
+          <button style={{ color: '#9ca3af', fontSize: 14, background: 'none', border: 'none', cursor: 'pointer', fontWeight: 500 }}
+            onMouseEnter={e => e.currentTarget.style.color = '#fff'}
+            onMouseLeave={e => e.currentTarget.style.color = '#9ca3af'}
+          >View more →</button>
         </div>
       </div>
     </section>

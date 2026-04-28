@@ -1,115 +1,109 @@
 import { useState } from 'react'
-import { Menu, X, ChevronDown, Zap } from 'lucide-react'
+import { ChevronDown, ArrowUpRight, Menu, X } from 'lucide-react'
+import Logo from './Logo'
 
-const programs = [
-  'AI Product Management',
-  'Generative AI for Developers',
-  'Data Science & ML',
-  'Data Analytics',
-  'AI-Powered Digital Marketing',
-  'Business AI Strategy',
-  'AI for Finance Professionals',
+const PROGRAMS = [
+  'AI Product Management', 'Generative AI & AI Agents',
+  'Advanced Generative AI', 'AI Data Science',
+  'AI Data Analytics', 'AI Digital Marketing',
 ]
+const PLATFORMS = ['BuildrX — Project Platform', 'AI Career Roadmap', 'Community Hub']
+
+function NavBtn({ children, onClick }) {
+  return (
+    <button onClick={onClick}
+      style={{ color: '#9ca3af', fontWeight: 500, fontSize: 14, background: 'none', border: 'none', cursor: 'pointer' }}
+      onMouseEnter={e => e.currentTarget.style.color = '#fff'}
+      onMouseLeave={e => e.currentTarget.style.color = '#9ca3af'}
+    >{children}</button>
+  )
+}
+
+function DropMenu({ label, items, open, setOpen, onSelect }) {
+  return (
+    <div style={{ position: 'relative' }}
+      onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
+      <button style={{ display: 'flex', alignItems: 'center', gap: 4, color: '#9ca3af', fontWeight: 500, fontSize: 14, background: 'none', border: 'none', cursor: 'pointer' }}
+        onMouseEnter={e => e.currentTarget.style.color = '#fff'}
+        onMouseLeave={e => e.currentTarget.style.color = '#9ca3af'}
+      >
+        {label} <ChevronDown style={{ width: 14, height: 14 }} />
+      </button>
+      {open && (
+        <div style={{ position: 'absolute', top: 'calc(100% + 8px)', left: 0, minWidth: 230, background: '#0f1117', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: '6px 0', boxShadow: '0 24px 48px rgba(0,0,0,0.8)', zIndex: 60 }}>
+          {items.map(item => (
+            <button key={item} onClick={() => onSelect(item)}
+              style={{ display: 'block', width: '100%', textAlign: 'left', padding: '10px 16px', fontSize: 13, color: '#9ca3af', background: 'none', border: 'none', cursor: 'pointer' }}
+              onMouseEnter={e => { e.currentTarget.style.color = '#fff'; e.currentTarget.style.background = 'rgba(37,99,235,0.12)' }}
+              onMouseLeave={e => { e.currentTarget.style.color = '#9ca3af'; e.currentTarget.style.background = 'none' }}
+            >{item}</button>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
 
 export default function Navbar({ onNav }) {
-  const [menuOpen, setMenuOpen] = useState(false)
-  const [programsOpen, setProgramsOpen] = useState(false)
+  const [progOpen, setProgOpen] = useState(false)
+  const [platOpen, setPlatOpen] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
 
-  const handleNav = (section) => {
-    onNav(section)
-    setMenuOpen(false)
-    setProgramsOpen(false)
-  }
+  const nav = (s) => { onNav(s); setProgOpen(false); setPlatOpen(false); setMobileOpen(false) }
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur border-b border-gray-100 shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <button onClick={() => handleNav('home')} className="flex items-center gap-2 group">
-            <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-              <Zap className="w-4 h-4 text-white" />
-            </div>
-            <span className="text-xl font-bold gradient-text">AccelerateAI</span>
-          </button>
+    <nav style={{
+      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
+      background: 'rgba(4,4,8,0.97)', backdropFilter: 'blur(16px)',
+      borderBottom: '1px solid rgba(255,255,255,0.07)',
+    }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64 }}>
 
-          {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-6">
-            {/* Programs dropdown */}
-            <div className="relative">
-              <button
-                className="flex items-center gap-1 text-gray-700 font-medium nav-link hover:text-blue-600 transition-colors"
-                onMouseEnter={() => setProgramsOpen(true)}
-                onMouseLeave={() => setProgramsOpen(false)}
-              >
-                Programs <ChevronDown className="w-4 h-4" />
-              </button>
-              {programsOpen && (
-                <div
-                  className="absolute top-full left-0 mt-1 w-64 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50"
-                  onMouseEnter={() => setProgramsOpen(true)}
-                  onMouseLeave={() => setProgramsOpen(false)}
-                >
-                  {programs.map((p) => (
-                    <button
-                      key={p}
-                      onClick={() => handleNav('programs')}
-                      className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
-                    >
-                      {p}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
+        <button onClick={() => nav('home')} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
+          <Logo dark size="md" />
+        </button>
 
-            {['About', 'Blog', 'Jobs Portal'].map((item) => (
-              <button
-                key={item}
-                onClick={() => handleNav(item.toLowerCase().replace(' ', '-'))}
-                className="text-gray-700 font-medium nav-link hover:text-blue-600 transition-colors"
-              >
-                {item}
-              </button>
-            ))}
-          </div>
-
-          {/* Auth buttons */}
-          <div className="hidden md:flex items-center gap-3">
-            <button
-              onClick={() => handleNav('signin')}
-              className="text-gray-700 font-medium hover:text-blue-600 transition-colors px-3 py-1.5"
-            >
-              Sign In
-            </button>
-            <button
-              onClick={() => handleNav('register')}
-              className="bg-blue-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
-            >
-              Get Started
-            </button>
-          </div>
-
-          {/* Mobile toggle */}
-          <button
-            className="md:hidden p-2 text-gray-600"
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </button>
+        {/* Desktop nav */}
+        <div className="hidden md:flex" style={{ alignItems: 'center', gap: 28 }}>
+          <DropMenu label="Programs" items={PROGRAMS} open={progOpen} setOpen={setProgOpen} onSelect={() => nav('programs')} />
+          <NavBtn onClick={() => nav('about')}>About</NavBtn>
+          <NavBtn onClick={() => nav('blog')}>Blog</NavBtn>
+          <NavBtn onClick={() => nav('jobs-portal')}>Jobs Portal</NavBtn>
+          <DropMenu label="Our Platforms" items={PLATFORMS} open={platOpen} setOpen={setPlatOpen} onSelect={() => {}} />
         </div>
+
+        <div className="hidden md:flex" style={{ alignItems: 'center', gap: 12 }}>
+          <NavBtn onClick={() => nav('signin')}>Log In</NavBtn>
+          <button onClick={() => nav('register')} style={{
+            display: 'flex', alignItems: 'center', gap: 6,
+            background: '#2563eb', color: '#fff', padding: '8px 18px',
+            borderRadius: 8, fontWeight: 600, fontSize: 14, border: '1px solid rgba(255,255,255,0.15)', cursor: 'pointer',
+          }}
+            onMouseEnter={e => e.currentTarget.style.background = '#1d4ed8'}
+            onMouseLeave={e => e.currentTarget.style.background = '#2563eb'}
+          >Sign Up <ArrowUpRight style={{ width: 14, height: 14 }} /></button>
+        </div>
+
+        {/* Mobile toggle */}
+        <button className="md:hidden" onClick={() => setMobileOpen(!mobileOpen)}
+          style={{ background: 'none', border: 'none', color: '#fff', cursor: 'pointer', padding: 4 }}>
+          {mobileOpen ? <X style={{ width: 22, height: 22 }} /> : <Menu style={{ width: 22, height: 22 }} />}
+        </button>
       </div>
 
-      {/* Mobile menu */}
-      {menuOpen && (
-        <div className="md:hidden bg-white border-t border-gray-100 px-4 py-4 space-y-3">
-          <button onClick={() => handleNav('programs')} className="block w-full text-left text-gray-700 font-medium py-2">Programs</button>
-          <button onClick={() => handleNav('about')} className="block w-full text-left text-gray-700 font-medium py-2">About</button>
-          <button onClick={() => handleNav('blog')} className="block w-full text-left text-gray-700 font-medium py-2">Blog</button>
-          <button onClick={() => handleNav('jobs-portal')} className="block w-full text-left text-gray-700 font-medium py-2">Jobs Portal</button>
-          <div className="flex gap-3 pt-2">
-            <button onClick={() => handleNav('signin')} className="flex-1 border border-gray-300 text-gray-700 py-2 rounded-lg font-medium">Sign In</button>
-            <button onClick={() => handleNav('register')} className="flex-1 bg-blue-600 text-white py-2 rounded-lg font-semibold">Get Started</button>
+      {mobileOpen && (
+        <div style={{ background: '#0a0a0f', borderTop: '1px solid rgba(255,255,255,0.07)', padding: '12px 24px 20px' }}>
+          {['programs', 'about', 'blog', 'jobs-portal'].map(s => (
+            <button key={s} onClick={() => nav(s)}
+              style={{ display: 'block', width: '100%', textAlign: 'left', padding: '12px 0', color: '#d1d5db', fontSize: 15, fontWeight: 500, background: 'none', border: 'none', borderBottom: '1px solid rgba(255,255,255,0.05)', cursor: 'pointer' }}>
+              {s.replace('-', ' ').replace(/\b\w/g, c => c.toUpperCase())}
+            </button>
+          ))}
+          <div style={{ display: 'flex', gap: 10, marginTop: 16 }}>
+            <button onClick={() => nav('signin')}
+              style={{ flex: 1, padding: '10px 0', borderRadius: 8, border: '1px solid rgba(255,255,255,0.15)', color: '#fff', background: 'none', fontWeight: 600, cursor: 'pointer' }}>Log In</button>
+            <button onClick={() => nav('register')}
+              style={{ flex: 1, padding: '10px 0', borderRadius: 8, background: '#2563eb', color: '#fff', fontWeight: 600, border: 'none', cursor: 'pointer' }}>Sign Up</button>
           </div>
         </div>
       )}

@@ -1,174 +1,223 @@
-import { useState } from 'react'
-import { Star, ChevronLeft, ChevronRight, Quote } from 'lucide-react'
+import React from 'react'
 
-const stats = [
-  { value: '2,700+', label: 'Success Stories', sub: 'Graduates placed globally' },
-  { value: '1,700+', label: 'Hiring Partners', sub: 'Companies that trust us' },
-  { value: '94%', label: 'Placement Rate', sub: 'Within 6 months of graduation' },
-  { value: '₹18 LPA', label: 'Avg. Package', sub: 'Across all programs' },
+function personSvg({ bg1, bg2, skin = '#c8956a', hair = '#1a0804', jacket = '#1e3a5f', female = false }) {
+  const hairPath = female
+    ? `<path d="M125 148 Q132 88 200 84 Q268 88 275 148 Q258 118 200 115 Q142 118 125 148 Q118 205 128 255 Q140 195 200 188 Q260 195 272 255 Q282 205 275 148Z" fill="${hair}"/>`
+    : `<path d="M130 155 Q138 96 200 92 Q262 96 270 155 Q254 128 200 126 Q146 128 130 155Z" fill="${hair}"/>`
+
+  const svg = [
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600">`,
+    `<defs>`,
+    `<linearGradient id="g" x1="0" y1="0" x2="0" y2="1">`,
+    `<stop offset="0%" stop-color="${bg1}"/>`,
+    `<stop offset="100%" stop-color="${bg2}"/>`,
+    `</linearGradient>`,
+    `<radialGradient id="gl" cx="50%" cy="45%" r="65%">`,
+    `<stop offset="0%" stop-color="${bg1}" stop-opacity="0.5"/>`,
+    `<stop offset="100%" stop-color="transparent"/>`,
+    `</radialGradient>`,
+    `</defs>`,
+    `<rect width="400" height="600" fill="url(#g)"/>`,
+    `<ellipse cx="200" cy="350" rx="220" ry="280" fill="url(#gl)"/>`,
+    `<circle cx="200" cy="170" r="72" fill="${skin}"/>`,
+    hairPath,
+    `<ellipse cx="180" cy="168" rx="7" ry="8" fill="#2d1408"/>`,
+    `<ellipse cx="220" cy="168" rx="7" ry="8" fill="#2d1408"/>`,
+    `<circle cx="182" cy="166" r="2.5" fill="#fff" opacity="0.9"/>`,
+    `<circle cx="222" cy="166" r="2.5" fill="#fff" opacity="0.9"/>`,
+    `<path d="M188 190 Q200 200 212 190" stroke="#a0694a" stroke-width="2" fill="none" stroke-linecap="round"/>`,
+    `<rect x="183" y="238" width="34" height="22" fill="${skin}"/>`,
+    `<path d="M72 260 Q72 250 108 242 L183 260 L200 276 L217 260 L292 242 Q328 250 328 260 L348 600 H52Z" fill="#f0f4f8"/>`,
+    `<path d="M181 242 L200 276 L219 242 L210 234 L200 250 L190 234Z" fill="#e2e8f0"/>`,
+    `<path d="M72 260 Q42 288 50 375 L84 363 Q78 318 96 282Z" fill="${jacket}"/>`,
+    `<path d="M328 260 Q358 288 350 375 L316 363 Q322 318 304 282Z" fill="${jacket}"/>`,
+    `<path d="M52 600 Q62 500 84 363 L116 352 Q98 500 100 600Z" fill="${jacket}" opacity="0.7"/>`,
+    `<path d="M348 600 Q338 500 316 363 L284 352 Q302 500 300 600Z" fill="${jacket}" opacity="0.7"/>`,
+    `</svg>`,
+  ].join('')
+
+  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`
+}
+
+const PEOPLE = [
+  {
+    name: 'Shivam Jha', title: 'Data Engineer', company: 'Caparo Engineering India Ltd',
+    bg1: '#1e3a8a', bg2: '#060c1e', jacket: '#1e3a5f', skin: '#c8956a', hair: '#1a0804',
+    accent: '#3b82f6',
+    quote: 'An eye-opening journey that bridged data analytics learning with real-world business application.',
+  },
+  {
+    name: 'Sourabh Kalra', title: 'HR Analyst', company: 'Rajesh Chetan Insurance Brokers Pvt Ltd',
+    bg1: '#581c87', bg2: '#100520', jacket: '#581c87', skin: '#a07850', hair: '#3d1a0a',
+    accent: '#a855f7',
+    quote: 'Built ContextForge — a web app that transforms average prompts into high-performing, context-rich instructions.',
+  },
+  {
+    name: 'Srikant Pandey', title: 'AI QA Engineering Lead', company: 'TO THE NEW',
+    bg1: '#064e3b', bg2: '#001408', jacket: '#064e3b', skin: '#b89070', hair: '#2d1408',
+    accent: '#10b981',
+    quote: 'Built Rasa AI to simplify personalized nutrition turning complex meal planning into an intelligent, adaptive experience.',
+  },
+  {
+    name: 'Nikhil D', title: 'Associate PM', company: 'EdTech Startup',
+    bg1: '#92400e', bg2: '#180800', jacket: '#92400e', skin: '#d4a574', hair: '#1a0804',
+    accent: '#f59e0b',
+    quote: 'Helped medium-sized businesses launch and scale their digital products with AI-first thinking.',
+  },
+  {
+    name: 'Priya Sharma', title: 'AI Product Manager', company: 'Razorpay',
+    bg1: '#1e3a8a', bg2: '#080e1e', jacket: '#1e3a5f', skin: '#c8a070', hair: '#3d1a0a', female: true,
+    accent: '#60a5fa',
+    quote: 'Understood how AI systems actually work from agents and workflows to production-ready builds.',
+  },
+  {
+    name: 'Harshitha SR', title: 'Software Engineering Trainee', company: 'Excelsoft Technologies',
+    bg1: '#065f46', bg2: '#001810', jacket: '#065f46', skin: '#b87858', hair: '#2d1408', female: true,
+    accent: '#34d399',
+    quote: 'I started my career as a Software Engineer. After a long break, I came back not to catch up, but to create what the future will run on.',
+  },
+  {
+    name: 'Arjun Mehta', title: 'Senior ML Engineer', company: 'Google',
+    bg1: '#1e3a8a', bg2: '#060e1e', jacket: '#1e3a5f', skin: '#c8956a', hair: '#1a0804',
+    accent: '#7c3aed',
+    quote: 'From idea to interface — delivered my first end-to-end AI product and applied it on real products in record time.',
+  },
+  {
+    name: 'Arun Karthik', title: 'Digital Marketing Intern', company: 'VMax Wellness',
+    bg1: '#6d28d9', bg2: '#100820', jacket: '#6d28d9', skin: '#c8956a', hair: '#2d1408',
+    accent: '#c084fc',
+    quote: 'I enjoy analyzing markets, understanding consumer behavior, and transforming insights into impactful marketing strategies.',
+  },
+  {
+    name: 'Dhruv Dave', title: 'Prompt Engineer', company: 'Alight Technologies',
+    bg1: '#1e3a8a', bg2: '#050d1a', jacket: '#1e3a5f', skin: '#d4a574', hair: '#2d1408',
+    accent: '#38bdf8',
+    quote: 'Understood how AI systems actually work from agents and workflows to production-ready builds.',
+  },
+  {
+    name: 'Kamayani Chaliki', title: 'Founder', company: 'Skinbuddy',
+    bg1: '#4c1d95', bg2: '#0e0518', jacket: '#4c1d95', skin: '#c8a070', hair: '#1a0804', female: true,
+    accent: '#e879f9',
+    quote: 'Built Rasa AI to simplify personalized nutrition turning complex meal planning into an intelligent, adaptive experience.',
+  },
+  {
+    name: 'Abrar Shaikh', title: 'Payroll Specialist', company: 'UKG',
+    bg1: '#065f46', bg2: '#001810', jacket: '#065f46', skin: '#b89070', hair: '#2d1408',
+    accent: '#6ee7b7',
+    quote: 'Experience over 4 years spread across service outsourcing operations and international one call resolution.',
+  },
+  {
+    name: 'Raghul Balaji', title: 'Content Developer', company: 'Ments',
+    bg1: '#7f1d1d', bg2: '#1a0404', jacket: '#7f1d1d', skin: '#c8956a', hair: '#1a0804',
+    accent: '#f87171',
+    quote: 'From idea to interface — delivered my first Content and applied it on products in real time.',
+  },
+  {
+    name: 'Biswajit Pradhan', title: 'Frontend Developer', company: 'Infosys',
+    bg1: '#1e3a8a', bg2: '#060c1e', jacket: '#1e3a5f', skin: '#b89070', hair: '#1a0804',
+    accent: '#818cf8',
+    quote: 'Built Classmate.io — a comprehensive product for early age students, professionals and aspirants.',
+  },
+  {
+    name: 'Bhagyashree K.', title: 'Data Analyst', company: 'Netflix Project',
+    bg1: '#831843', bg2: '#1a0410', jacket: '#831843', skin: '#d4a574', hair: '#3d1a0a', female: true,
+    accent: '#fb7185',
+    quote: 'Built an interactive Power BI dashboard to analyze Netflix movies and series with real-world insights.',
+  },
 ]
 
-const testimonials = [
-  {
-    name: 'Priya Sharma',
-    role: 'AI Product Manager',
-    company: 'Razorpay',
-    avatar: 'PS',
-    avatarColor: 'from-blue-500 to-blue-700',
-    rating: 5,
-    text: "The AI PM program changed my career completely. Within 3 months of graduating I had three offers. The mentors are real practitioners, not just teachers.",
-    salary: '₹26 LPA',
-    prev: '₹11 LPA',
-  },
-  {
-    name: 'Arjun Mehta',
-    role: 'Senior ML Engineer',
-    company: 'Google',
-    avatar: 'AM',
-    avatarColor: 'from-purple-500 to-purple-700',
-    rating: 5,
-    text: "I had been trying to break into ML for two years. After the Data Science program here, I landed at Google. The project-based approach is unmatched.",
-    salary: '₹38 LPA',
-    prev: '₹14 LPA',
-  },
-  {
-    name: 'Sneha Reddy',
-    role: 'Data Analyst',
-    company: 'Swiggy',
-    avatar: 'SR',
-    avatarColor: 'from-green-500 to-emerald-700',
-    rating: 5,
-    text: "Fresh graduate, zero experience — now I'm at Swiggy building dashboards that the CEO uses. AccelerateAI's placement team is extraordinary.",
-    salary: '₹14 LPA',
-    prev: 'Fresher',
-  },
-  {
-    name: 'Rahul Nair',
-    role: 'GenAI Developer',
-    company: 'Microsoft',
-    avatar: 'RN',
-    avatarColor: 'from-orange-500 to-red-600',
-    rating: 5,
-    text: "Best investment I've made in my career. The GenAI curriculum is cutting-edge — I was building RAG systems in week three. Microsoft hired me before I even finished.",
-    salary: '₹32 LPA',
-    prev: '₹18 LPA',
-  },
-  {
-    name: 'Kavya Pillai',
-    role: 'Marketing AI Lead',
-    company: 'Flipkart',
-    avatar: 'KP',
-    avatarColor: 'from-pink-500 to-rose-600',
-    rating: 5,
-    text: "I was a traditional marketer scared of AI. Now I lead the AI marketing team at Flipkart. The course was practical, fast-paced, and the community is incredible.",
-    salary: '₹20 LPA',
-    prev: '₹9 LPA',
-  },
-  {
-    name: 'Vikram Singh',
-    role: 'Business AI Consultant',
-    company: 'Deloitte',
-    avatar: 'VS',
-    avatarColor: 'from-teal-500 to-cyan-700',
-    rating: 5,
-    text: "The Business AI Strategy program gave me a framework to talk AI with any C-suite. Deloitte hired me six weeks into the course. Absolutely life-changing.",
-    salary: '₹40 LPA',
-    prev: '₹22 LPA',
-  },
-]
+const ROW1 = PEOPLE.slice(0, 7)
+const ROW2 = PEOPLE.slice(7)
 
-function TestimonialCard({ t }) {
+function PersonCard({ person }) {
+  const [hovered, setHovered] = React.useState(false)
   return (
-    <div className="testimonial-card flex flex-col h-full">
-      <Quote className="w-8 h-8 text-blue-100 mb-3" />
-      <p className="text-gray-700 text-sm leading-relaxed flex-1 mb-5">"{t.text}"</p>
-
-      <div className="flex gap-1 mb-4">
-        {Array.from({ length: t.rating }).map((_, i) => (
-          <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-        ))}
+    <div
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        width: 320,
+        borderRadius: 16,
+        background: 'linear-gradient(145deg, #0d1117 0%, #0f1623 100%)',
+        border: `1px solid ${hovered ? person.accent + '88' : 'rgba(255,255,255,0.08)'}`,
+        boxShadow: hovered ? `0 0 18px 2px ${person.accent}44, inset 0 0 12px 0 ${person.accent}11` : 'none',
+        padding: '22px 22px 24px',
+        flexShrink: 0,
+        marginRight: 20,
+        boxSizing: 'border-box',
+        transition: 'border-color 0.25s ease, box-shadow 0.25s ease',
+        cursor: 'default',
+      }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 16 }}>
+        <div style={{
+          width: 64, height: 64, borderRadius: '50%',
+          overflow: 'hidden', flexShrink: 0,
+          border: `2px solid ${person.accent}66`,
+        }}>
+          <img
+            src={personSvg(person)}
+            alt={person.name}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }}
+          />
+        </div>
+        <div style={{ fontWeight: 700, fontSize: 16, color: '#f9fafb', lineHeight: 1.3 }}>{person.name}</div>
       </div>
 
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${t.avatarColor} flex items-center justify-center text-white text-sm font-bold`}>
-            {t.avatar}
-          </div>
-          <div>
-            <div className="font-bold text-gray-900 text-sm">{t.name}</div>
-            <div className="text-xs text-gray-500">{t.role} · {t.company}</div>
-          </div>
-        </div>
-        <div className="text-right">
-          <div className="text-xs text-gray-400 line-through">{t.prev}</div>
-          <div className="text-sm font-black text-green-600">{t.salary}</div>
-        </div>
+      <div style={{
+        display: 'inline-flex', alignItems: 'center',
+        border: `1px solid ${person.accent}44`,
+        borderRadius: 20, padding: '5px 13px',
+        marginBottom: 16,
+        maxWidth: '100%', overflow: 'hidden',
+      }}>
+        <span style={{ fontSize: 11, color: person.accent, fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+          {person.title} @ {person.company}
+        </span>
+      </div>
+
+      <p style={{
+        fontSize: 14, color: '#9ca3af', lineHeight: 1.7, margin: 0,
+        display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden',
+      }}>
+        {person.quote}
+      </p>
+    </div>
+  )
+}
+
+function MarqueeRow({ people, reverse = false }) {
+  const doubled = [...people, ...people]
+  return (
+    <div style={{ overflow: 'hidden', maskImage: 'linear-gradient(90deg, transparent, black 4%, black 96%, transparent)' }}>
+      <div style={{
+        display: 'flex',
+        width: 'max-content',
+        animation: `${reverse ? 'tickerRev' : 'ticker'} 40s linear infinite`,
+        willChange: 'transform',
+      }}>
+        {doubled.map((person, i) => (
+          <PersonCard key={i} person={person} />
+        ))}
       </div>
     </div>
   )
 }
 
 export default function SocialProof() {
-  const [page, setPage] = useState(0)
-  const perPage = 3
-  const pages = Math.ceil(testimonials.length / perPage)
-  const visible = testimonials.slice(page * perPage, page * perPage + perPage)
-
   return (
-    <section className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-20">
-          {stats.map(s => (
-            <div key={s.label} className="stat-card text-center">
-              <div className="text-3xl md:text-4xl font-black mb-1">{s.value}</div>
-              <div className="font-bold text-blue-100 text-sm mb-0.5">{s.label}</div>
-              <div className="text-blue-200 text-xs">{s.sub}</div>
-            </div>
-          ))}
-        </div>
+    <section style={{ background: '#070910', padding: '88px 0' }}>
+      <div style={{ textAlign: 'center', marginBottom: 56, padding: '0 24px' }}>
+        <h2 style={{ color: '#fff', fontSize: 'clamp(28px,4vw,48px)', fontWeight: 900, letterSpacing: '-0.03em', marginBottom: 14 }}>
+          2700+ Success Stories
+        </h2>
+        <p style={{ color: '#6b7280', fontSize: 16, maxWidth: 560, margin: '0 auto', lineHeight: 1.6 }}>
+          Professionals like you are already making the shift. Hear directly from our learners who transitioned into an AI-led career.
+        </p>
+      </div>
 
-        {/* Testimonials */}
-        <div className="text-center mb-12">
-          <span className="text-blue-600 font-semibold text-sm uppercase tracking-widest">Success Stories</span>
-          <h2 className="text-4xl font-black text-gray-900 mt-2 mb-4">
-            Real People, <span className="gradient-text">Real Results</span>
-          </h2>
-          <p className="text-gray-600 max-w-xl mx-auto">
-            Our graduates don't just get jobs — they transform their careers and their lives.
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-6 mb-8">
-          {visible.map(t => <TestimonialCard key={t.name} t={t} />)}
-        </div>
-
-        {/* Pagination */}
-        <div className="flex items-center justify-center gap-4">
-          <button
-            onClick={() => setPage(p => Math.max(0, p - 1))}
-            disabled={page === 0}
-            className="p-2 rounded-full border border-gray-200 hover:border-blue-400 disabled:opacity-30 transition-colors"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
-          <div className="flex gap-2">
-            {Array.from({ length: pages }).map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setPage(i)}
-                className={`w-2.5 h-2.5 rounded-full transition-colors ${i === page ? 'bg-blue-600' : 'bg-gray-200'}`}
-              />
-            ))}
-          </div>
-          <button
-            onClick={() => setPage(p => Math.min(pages - 1, p + 1))}
-            disabled={page === pages - 1}
-            className="p-2 rounded-full border border-gray-200 hover:border-blue-400 disabled:opacity-30 transition-colors"
-          >
-            <ChevronRight className="w-5 h-5" />
-          </button>
-        </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+        <MarqueeRow people={ROW1} reverse={false} />
+        <MarqueeRow people={ROW2} reverse={true} />
       </div>
     </section>
   )

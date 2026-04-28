@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
+import CompanyLogos from './components/CompanyLogos'
 import Programs from './components/Programs'
 import SocialProof from './components/SocialProof'
+import LearnersSection from './components/LearnersSection'
 import CareerSection from './components/CareerSection'
 import FAQ from './components/FAQ'
 import CTA from './components/CTA'
@@ -16,8 +18,10 @@ function HomePage({ onNav }) {
   return (
     <>
       <Hero onNav={onNav} />
+      <CompanyLogos />
       <Programs />
       <SocialProof />
+      <LearnersSection />
       <CareerSection />
       <FAQ />
       <CTA onNav={onNav} />
@@ -40,14 +44,14 @@ export default function App() {
       case 'about':      return <AboutPage />
       case 'blog':       return <BlogPage />
       case 'jobs-portal': return <JobsPage />
-      case 'signin':     return <AuthPage mode="signin" onNav={handleNav} />
+      case 'signin':     return <AuthPage mode="signin"   onNav={handleNav} />
       case 'register':   return <AuthPage mode="register" onNav={handleNav} />
       default:           return <HomePage onNav={handleNav} />
     }
   }
 
   return (
-    <div className="min-h-screen">
+    <div style={{ background: '#050508' }}>
       <Navbar onNav={handleNav} />
       <main>{renderPage()}</main>
       {!['signin', 'register'].includes(page) && <Footer />}
